@@ -1,0 +1,95 @@
+Reformat The String
+
+Given alphanumeric string s. (Alphanumeric string is a string consisting of lowercase English letters and digits).
+
+You have to find a permutation of the string where no letter is followed by another letter and no digit is followed by another digit. That is, no two adjacent characters have the same type.
+
+Return the reformatted string or return an empty string if it is impossible to reformat the string.
+
+
+class Solution:
+    def convert(self,List):
+        return "".join(List)
+    
+    def toString(self,List):
+        flag = False
+        if List[0].isdigit():
+            flag = True
+            
+        for i in range(len(List)):
+            # if alphabet
+            if flag == False and List[i].isdigit() == False:
+                flag = True
+                
+            elif flag == True and List[i].isdigit() == True:
+                flag = False
+            else:
+                return False
+        return True
+        
+            
+    def permute(self,a, l, r): 
+        if l==r: 
+            if self.toString(a):
+                return True, a
+            else:
+                return False,a
+        else: 
+            for i in range(l,r+1): 
+                a[l], a[i] = a[i], a[l] 
+                #print(l)
+                if self.permute(a, l+1, r)[0] == True:
+                    #print(a)
+                    return True, a
+                a[l], a[i] = a[i], a[l] # backtrack 
+            
+            return False,a
+                
+    def reformat(self, s: str) -> str:
+        a = list(s)
+        a_len = 0
+        d_len = 0
+        alp = []
+        dig = []
+        for i in range(len(a)):
+            if a[i].isdigit():
+                d_len += 1
+                dig.append(a[i])
+            else:
+                a_len += 1
+                alp.append(a[i])
+        #print(dig)
+        #print(alp)
+        ans = ""
+        if a_len > d_len and a_len == d_len+1:
+            i = 0
+            while i < d_len:
+                ans = ans + alp[i] + dig[i]
+                i+=1
+            ans = ans + alp[i]
+        
+        elif a_len == d_len:
+            i = 0
+            while i < d_len:
+                ans = ans + alp[i] + dig[i]
+                i+=1
+        elif d_len > a_len and d_len == a_len + 1 : 
+            i = 0
+            while i < a_len:
+                ans = ans + dig[i] + alp[i]
+                i+=1
+            ans = ans + dig[i]
+        
+        return ans
+            
+            
+            
+            
+            
+            #print(a)
+            #f,s = self.permute(a,0,len(s)-1)
+            
+            #if f == True:
+             #   return self.convert(s)
+        
+        return ""
